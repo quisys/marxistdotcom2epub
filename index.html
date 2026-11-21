@@ -128,7 +128,7 @@
 </header>
 
 <p>
-  <strong>marxist.com</strong> serves its books through a web reader that keeps footnotes tucked inside a JSON blob instead of standard EPUB markup. Both tools below grab the manifest and chapters, wire the footnotes into a separate <code>notes.xhtml</code> file (so readers like Apple Books open them as popups), and pack a valid EPUB right in your browser.
+  <strong>marxist.com</strong> serves its books through a web reader that doesn't allow downloads. If you want to read on an e-reader, this tool gets you the .epub file.
 </p>
 
 <h2>1. Paste a URL</h2>
@@ -166,9 +166,7 @@
   If you would rather do this from the command line on Linux, macOS, or BSD, grab the POSIX shell script from the <a href="https://github.com/quisys/marxistdotcom2epub">GitHub repository</a> (requires <code>curl</code>, <code>jq</code>, and <code>zip</code>).
 </p>
 
-<footer>
-  <a href="https://github.com/quisys/marxistdotcom2epub">github.com/quisys/marxistdotcom2epub</a> - ISC License.
-</footer>
+
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script>
