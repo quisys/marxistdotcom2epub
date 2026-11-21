@@ -1,0 +1,370 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>marxistdotcom2epub</title>
+<style>
+  body {
+    max-width: 42em;
+    margin: 2.5em auto;
+    padding: 0 1.2em;
+    font-family: Georgia, "Times New Roman", serif;
+    line-height: 1.6;
+    color: #111;
+    background: #fdfcf7;
+  }
+  header {
+    border-bottom: 2px solid #8b0000;
+    padding-bottom: 0.5em;
+    margin-bottom: 1.5em;
+  }
+  h1 {
+    font-size: 1.65em;
+    margin: 0;
+    color: #8b0000;
+  }
+  .tagline {
+    margin: 0.25em 0 0;
+    font-style: italic;
+    color: #444;
+    font-size: 0.95em;
+  }
+  h2 {
+    font-size: 1.15em;
+    color: #8b0000;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 0.2em;
+    margin-top: 2em;
+  }
+  a {
+    color: #8b0000;
+  }
+  a:visited {
+    color: #5a0000;
+  }
+  code, input[type="url"] {
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.9em;
+  }
+  fieldset {
+    border: 1px solid #b8b2a0;
+    background: #f7f5ec;
+    padding: 1em 1.2em;
+    margin: 1em 0;
+  }
+  legend {
+    font-weight: bold;
+    color: #8b0000;
+    padding: 0 0.4em;
+  }
+  label {
+    display: block;
+    margin-bottom: 0.4em;
+    font-weight: bold;
+    font-size: 0.92em;
+  }
+  input[type="url"] {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 0.5em;
+    border: 1px solid #888;
+    background: #fff;
+    margin-bottom: 0.8em;
+  }
+  button {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.95em;
+    padding: 0.45em 1.1em;
+    background: #8b0000;
+    color: #fff;
+    border: 1px solid #5a0000;
+    cursor: pointer;
+  }
+  button:disabled {
+    background: #777;
+    border-color: #555;
+    cursor: wait;
+  }
+  .bookmarxlet-box {
+    margin: 1em 0;
+    padding: 1em 1.2em;
+    background: #f3f1e8;
+    border-left: 4px solid #8b0000;
+  }
+  a.bookmarxlet {
+    display: inline-block;
+    padding: 0.4em 0.9em;
+    background: #8b0000;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    border: 1px solid #5a0000;
+  }
+  a.bookmarxlet:hover {
+    background: #a30000;
+  }
+  #status {
+    margin-top: 0.8em;
+    font-family: "Courier New", Courier, monospace;
+    font-size: 0.88em;
+    white-space: pre-wrap;
+    color: #222;
+  }
+  footer {
+    margin-top: 3em;
+    padding-top: 0.8em;
+    border-top: 1px solid #ccc;
+    font-size: 0.85em;
+    color: #555;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>marxistdotcom2epub</h1>
+  <p class="tagline">Convert books from marxist.com into portable EPUB files with working footnotes.</p>
+</header>
+
+<p>
+  <strong>marxist.com</strong> serves its books through a web reader that keeps footnotes tucked inside a JSON blob instead of standard EPUB markup. Both tools below grab the manifest and chapters, wire the footnotes into a separate <code>notes.xhtml</code> file (so readers like Apple Books open them as popups), and pack a valid EPUB right in your browser.
+</p>
+
+<h2>1. Paste a URL</h2>
+<p>
+  Drop in a link to any book or <code>/read</code> page on <code>marxist.com</code> and download the finished EPUB.
+</p>
+
+<fieldset>
+  <legend>Direct Converter</legend>
+  <form id="convert-form">
+    <label for="book-url">marxist.com Book URL</label>
+    <input type="url" id="book-url" placeholder="https://marxist.com/book/lenin-what-is-to-be-done-2019/read" required>
+    <button type="submit" id="submit-btn">Convert to EPUB</button>
+  </form>
+  <div id="status" aria-live="polite"></div>
+</fieldset>
+
+<h2>2. The Bookmarxlet</h2>
+<p>
+  Prefer to seize the means of EPUB production directly? The <strong>Bookmarxlet</strong> is a regular browser bookmarklet (a tiny piece of JavaScript saved as a bookmark) that runs straight inside an open <code>marxist.com</code> tab. Because it lives inside the page itself, it needs no proxy server at all.
+</p>
+
+<div class="bookmarxlet-box">
+  <p style="margin-top: 0;">Drag this button up to your bookmarks bar:</p>
+  <p>
+    <a id="bm-link" class="bookmarxlet" href="#">Bookmarxlet: Save EPUB</a>
+  </p>
+  <p style="margin-bottom: 0; font-size: 0.9em; color: #333;">
+    Next time you have a book's <code>/read</code> page open on marxist.com, click the bookmark and your <code>.epub</code> will download automatically.
+  </p>
+</div>
+
+<h2>3. Terminal Script</h2>
+<p>
+  If you would rather do this from the command line on Linux, macOS, or BSD, grab the POSIX shell script from the <a href="https://github.com/quisys/marxistdotcom2epub">GitHub repository</a> (requires <code>curl</code>, <code>jq</code>, and <code>zip</code>).
+</p>
+
+<footer>
+  <a href="https://github.com/quisys/marxistdotcom2epub">github.com/quisys/marxistdotcom2epub</a> - ISC License.
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+(function () {
+  "use strict";
+
+  // Replace this with your deployed Cloudflare Worker URL
+  const PROXY_URL = "https://marxistdotcom2epub.quisys.workers.dev";
+
+  async function buildEpubFromHtml(pageHtml, pageUrl, fetchAsset, log) {
+    const doc = new DOMParser().parseFromString(pageHtml, "text/html");
+    const cfgEl = doc.getElementById("reader-config");
+    if (!cfgEl) {
+      throw new Error("Could not find #reader-config on that page.");
+    }
+
+    const cfg = JSON.parse(cfgEl.textContent);
+    const opfUrl = new URL(cfg.opfUrl, pageUrl).href;
+    const baseUrl = opfUrl.slice(0, opfUrl.lastIndexOf("/") + 1);
+    const notes = cfg.notes || {};
+    const noteKeys = new Set(Object.keys(notes));
+
+    log("Fetching manifest...");
+    let opfText = await (await fetchAsset(opfUrl)).text();
+    const opfDoc = new DOMParser().parseFromString(opfText, "application/xml");
+    const hrefs = Array.from(
+      new Set(
+        Array.from(opfDoc.querySelectorAll("item[href]")).map(function (el) {
+          return el.getAttribute("href");
+        })
+      )
+    );
+
+    if (!hrefs.length) {
+      throw new Error("Manifest contained no items.");
+    }
+
+    const zip = new JSZip();
+    zip.file("mimetype", "application/epub+zip", { compression: "STORE" });
+    zip.file(
+      "META-INF/container.xml",
+      '<?xml version="1.0" encoding="UTF-8"?>\n' +
+      '<container version="1.0" xmlns="urn:oasis:names:tc:opendocument:xmlns:container">\n' +
+      '  <rootfiles><rootfile full-path="OEBPS/content.opf" media-type="application/oebps-package+xml"/></rootfiles>\n' +
+      '</container>\n'
+    );
+
+    const xhtmls = hrefs.filter(function (h) {
+      return /\.(xhtml|html)$/i.test(decodeURIComponent(h));
+    });
+    const firstDir = xhtmls[0] && xhtmls[0].indexOf("/") !== -1
+      ? xhtmls[0].slice(0, xhtmls[0].lastIndexOf("/") + 1)
+      : "";
+    const notesHref = firstDir + "notes.xhtml";
+
+    let done = 0;
+    await Promise.all(
+      hrefs.map(async function (raw) {
+        const localPath = decodeURIComponent(raw);
+        const assetUrl = new URL(raw, baseUrl).href;
+        const resp = await fetchAsset(assetUrl);
+        done++;
+        log("Downloading files (" + done + "/" + hrefs.length + ")...");
+        if (!resp.ok) {
+          return;
+        }
+        if (/\.(xhtml|html)$/i.test(localPath) && noteKeys.size > 0) {
+          let txt = await resp.text();
+          if (!/xmlns:epub=/i.test(txt)) {
+            txt = txt.replace(/<html\b/i, '<html xmlns:epub="http://www.idpf.org/2007/ops"');
+          }
+          txt = txt.replace(/href="#([^"]+)"/gi, function (m, id) {
+            return noteKeys.has(id) ? 'href="notes.xhtml#' + id + '"' : m;
+          });
+          zip.file("OEBPS/" + localPath, txt);
+        } else {
+          zip.file("OEBPS/" + localPath, await resp.arrayBuffer());
+        }
+      })
+    );
+
+    if (noteKeys.size > 0) {
+      log("Building notes.xhtml (" + noteKeys.size + " notes)...");
+      const esc = function (s) {
+        return s
+          .replace(/&/g, "&amp;")
+          .replace(/"/g, "&quot;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;");
+      };
+      const asides = Object.entries(notes)
+        .map(function (entry) {
+          const k = entry[0];
+          const v = entry[1];
+          let body = typeof v === "object" ? (v.html || v.text || JSON.stringify(v)) : String(v);
+          body = body
+            .replace(/&(?!(amp|lt|gt|quot|apos|#\d+|#x[0-9a-fA-F]+);)/g, "&amp;")
+            .replace(/<(br|hr|img)(\b[^>]*)>/gi, "<$1$2 />")
+            .replace(/\/\s*\/>/g, "/>");
+          return '<aside id="' + esc(k) + '" epub:type="footnote">' + body + "</aside>";
+        })
+        .join("\n");
+
+      zip.file(
+        "OEBPS/" + notesHref,
+        '<?xml version="1.0" encoding="utf-8"?>\n' +
+        '<html xmlns="http://www.w3.org/1999/xhtml" xmlns:epub="http://www.idpf.org/2007/ops" xml:lang="en">\n' +
+        "<head><title>Notes</title></head><body>\n" +
+        asides +
+        "\n</body></html>\n"
+      );
+
+      opfText = opfText
+        .replace(
+          "</manifest>",
+          '  <item id="notes" href="' + notesHref + '" media-type="application/xhtml+xml"/>\n</manifest>'
+        )
+        .replace(
+          "</spine>",
+          '  <itemref idref="notes" linear="no"/>\n</spine>'
+        );
+    }
+
+    zip.file("OEBPS/content.opf", opfText);
+    log("Packing archive...");
+
+    const blob = await zip.generateAsync({
+      type: "blob",
+      mimeType: "application/epub+zip"
+    });
+    const rawTitle = cfg.title || cfg.slug || "book";
+    const safeTitle = rawTitle.replace(/[\\/*?:"<>|]/g, "").trim();
+
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = safeTitle + ".epub";
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    log("Saved " + safeTitle + ".epub");
+  }
+
+  // Serialize buildEpubFromHtml into the Bookmarxlet URI
+  const bmSource = `(async()=>{
+    const cfgEl=document.getElementById("reader-config");
+    if(!cfgEl){alert("Open a marxist.com book /read page first.");return;}
+    if(!window.JSZip){
+      await new Promise((res,rej)=>{
+        const s=document.createElement("script");
+        s.src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js";
+        s.onload=res;s.onerror=rej;document.head.appendChild(s);
+      });
+    }
+    const build=${buildEpubFromHtml.toString()};
+    await build(document.documentElement.outerHTML,location.href,u=>fetch(u),()=>{});
+  })();`;
+  document.getElementById("bm-link").href = "javascript:" + encodeURIComponent(bmSource);
+
+  // Direct URL form
+  const form = document.getElementById("convert-form");
+  const status = document.getElementById("status");
+  const btn = document.getElementById("submit-btn");
+
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    let bookUrl = document.getElementById("book-url").value.trim().split("?")[0].replace(/\/+$/, "");
+    if (!/\/read$/.test(bookUrl)) {
+      bookUrl += "/read";
+    }
+
+    const proxiedFetch = function (target) {
+      const u = new URL(PROXY_URL);
+      u.searchParams.set("url", target);
+      return fetch(u.href);
+    };
+
+    btn.disabled = true;
+    status.textContent = "Fetching reader page...";
+
+    try {
+      const resp = await proxiedFetch(bookUrl);
+      if (!resp.ok) {
+        throw new Error("HTTP " + resp.status + " fetching page.");
+      }
+      const html = await resp.text();
+      await buildEpubFromHtml(html, bookUrl, proxiedFetch, function (msg) {
+        status.textContent = msg;
+      });
+    } catch (err) {
+      status.textContent = "Error: " + err.message;
+    } finally {
+      btn.disabled = false;
+    }
+  });
+})();
+</script>
+
+</body>
+</html>
