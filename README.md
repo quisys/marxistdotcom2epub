@@ -4,6 +4,8 @@ A simple, POSIX-compliant shell script that converts ebooks from the marxist.com
 
 Simply copy the URL (ending in `/read`) and paste it after `marxistdotcom2epub`. Boom, epub!
 
+**For a user-friendly graphical tool, check out [https://quisys.github.io/marxistdotcom2epub](https://quisys.github.io/marxistdotcom2epub)
+
 ## Dependencies
 
 * `curl`
